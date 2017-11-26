@@ -117,6 +117,12 @@ function banner_contorl_change(m) {
 function ajaxReconstruct(pageNo,type) {
 	//根据序号m发送Ajax请求重构页面
 	var psize=20;
+	var modle=4;
+	if(document.body.offsetWidth<1364){
+		modle=3;
+		psize=15;
+	}
+
 	var listJs;	
 	var xhr=new XMLHttpRequest();
 	//get请求
@@ -127,12 +133,13 @@ function ajaxReconstruct(pageNo,type) {
 		if (xhr.readyState==4&&xhr.status==200){
 			console.log("have sent");
 			listJs=JSON.parse(xhr.responseText);
+			console.log(document.body.offsetWidth);
 			//重构列表				
 			var tbody=$("#course").find("tbody");
 			tbody.empty();
 			var nowJsObj=[],str;
 			for(a=0,b=listJs.list.length;a<b;a++){
-				if(a%4==0) str += "<tr></tr>";
+				if(a%modle==0) str += "<tr></tr>";
 					nowJsObj=listJs.list[a];
 					var priceJudge=(nowJsObj.price==0)?'免费':'￥'+nowJsObj.price;
 					str +='\
