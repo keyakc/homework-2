@@ -467,7 +467,7 @@ input:nth-child(1),input:nth-child(2) {
 #page>a {
 	display:inline-block;
 	width:20px;
-	height:20px;
+	height:2em;
 	text-align:center;
 	padding-top:7px;
 	margin-left:3px;

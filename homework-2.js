@@ -1,42 +1,31 @@
-
-//注册事件
-$("#clo_yellow").click(function(){$(this).parent().parent().hide();});
 var login_back=$("#login_back");
 var login=$("#login");
-
-
-login.click(function(){event.stopPropagation()})
+var foc=$("#foc");foc.click(follow);
+var unfoc=$("#unfoc");unfoc.click(unfollow);
+var banner_control=$("#banner_control");
+var control_items=$(".control_item");
+var page=document.getElementById("page");
+var page_items=page.getElementsByTagName("a");
+//注册事件
+$("#clo_yellow").click(function(){$(this).parent().parent().hide();});
+login.click(function(){event.stopPropagation()});
 $("#login_back").click(function(){
 	$("#login").removeClass("bounceIn").addClass("bounceOut");
 	setTimeout(function(){login_back.hide()},1000);})
-
 $("#login_close").click(function(){
 	$("#login").removeClass("bounceIn").addClass("bounceOut");
 	setTimeout(function(){login_back.hide()},1000);
 });
-
-var foc=$("#foc");foc.click(follow);
-var unfoc=$("#unfoc");unfoc.click(unfollow);
-
 $("#vid").children("img").click(function(){$("#shade_video").css("display","none")});
-$("#inst_vid").children("a").click(function(){$("#shade_video").css("display","block")})
-
-var banner_control=$("#banner_control");
-var control_items=$(".control_item");control_items.click(banner_click);
-
-
+$("#inst_vid").children("a").click(function(){$("#shade_video").css("display","block")});
+control_items.click(banner_click);
 function banner_click(event) {
 	var page=$(this).index();
 	banner_change(page);
 	banner_contorl_change(page);
 }
-function follow() {	
-	showLogin();
-}
-function unfollow() {
-	unfoc.hide();
-	foc.show();
-}
+function follow(){showLogin();}
+function unfollow(){unfoc.hide();foc.show();}
 function showLogin() {
 	//判断LocalStorage是否已登录
 	//若未登录
@@ -45,30 +34,28 @@ function showLogin() {
 }
 function login_submit() {
 	var inputs=document.getElementById("login_form").getElementsByTagName("input");
-
 	var userName=inputs[0].value,
 		password=inputs[1].value;
 		userName=md5(userName);
 		password=md5(password);
-
 	var xhr=new XMLHttpRequest();
-				//get请求
-				var url="http://study.163.com/webDev/login.htm";//相对当前文档路径
-				xhr.open('get',url+'?'+'userName='+userName+'&password='+password,true);	
-				xhr.send(null);		
-				xhr.onreadystatechange=function(){			
-					if (xhr.readyState==4&&xhr.status==200){
-						var resp=xhr.responseText;
-						if(resp==1) {						
-							foc.hide();
-							unfoc.show();
-							login_close.click();
-						}
-						if(resp==0) {
-						console.log("login failed");
-						}
-					}
-				}
+	//get请求
+	var url="http://study.163.com/webDev/login.htm";//相对当前文档路径
+	xhr.open('get',url+'?'+'userName='+userName+'&password='+password,true);	
+	xhr.send(null);		
+	xhr.onreadystatechange=function(){			
+		if (xhr.readyState==4&&xhr.status==200){
+			var resp=xhr.responseText;
+			if(resp==1) {						
+				foc.hide();
+				unfoc.show();
+				login_close.click();
+			}
+			if(resp==0) {
+			console.log("login failed");
+			}
+		}
+	}
 }
 //banner以及初始化
 var banner=$("#banner");
@@ -92,7 +79,6 @@ function banner_change(m) {
 	items.css("opacity",0);	
 	setInterval(function(){items.eq(m).css('opacity',1)},5);	
 }
-
 //用于重构
 var table=course.getElementsByTagName("table")[0];
 var tbody=table.getElementsByTagName("tbody")[0];
@@ -217,8 +203,7 @@ function ajaxReconstruct(pageNo,type) {
 		};
 	};
 }
-var page=document.getElementById("page");
-var page_items=page.getElementsByTagName("a");
+
 page.onclick=function(event) {
 	var type;
 	var page;
